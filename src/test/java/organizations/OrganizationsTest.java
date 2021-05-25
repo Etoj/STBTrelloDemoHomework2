@@ -81,10 +81,12 @@ public class OrganizationsTest extends BaseTest {
 
         JsonPath json = response.jsonPath();
         assertThat(json.getString("displayName")).isEqualTo("Organization name less then 3");
-        assertThat(json.getString("name")).isLowerCase();
-        assertThat(json.getString("name")).startsWith("na");
-        assertThat(json.getString("website")).startsWith("http://");
-        assertThat(json.getString("website")).contains("website.name");
+        assertThat(json.getString("name"))
+                .isLowerCase()
+                .startsWith("na");
+        assertThat(json.getString("website"))
+                .startsWith("http://")
+                .contains("website.name");
         organizationWithWrongParamId = json.getString("id");
     }
 
