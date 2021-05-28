@@ -18,14 +18,13 @@ public class BoardTest extends BaseTest {
                 .spec(reqSpec)
                 .queryParam("name", "My first board")
                 .when()
-                .post("https://api.trello.com/1/boards/")
+                .post(BASE_URL + "/" + BOARDS)
                 .then()
                 .statusCode(200)
                 .extract()
                 .response();
 
         JsonPath json = response.jsonPath();
-        //Assertions.assertEquals("My first board", json.get("name"));
         assertThat(json.getString("name")).isEqualTo("My first board");
 
         String boardId = json.get("id");
@@ -33,7 +32,7 @@ public class BoardTest extends BaseTest {
         given()
                 .spec(reqSpec)
                 .when()
-                .delete("https://api.trello.com/1/boards/" + boardId)
+                .delete(BASE_URL + "/" + BOARDS + "/" + boardId)
                 .then()
                 .statusCode(200);
     }
@@ -44,7 +43,7 @@ public class BoardTest extends BaseTest {
                 .spec(reqSpec)
                 .queryParam("name", "")
                 .when()
-                .post("https://api.trello.com/1/boards/")
+                .post(BASE_URL + "/" + BOARDS)
                 .then()
                 .statusCode(400)
                 .extract()
@@ -59,14 +58,13 @@ public class BoardTest extends BaseTest {
                 .queryParam("name", "Board without default list")
                 .queryParam("defaultLists", false)
                 .when()
-                .post("https://api.trello.com/1/boards/")
+                .post(BASE_URL + "/" + BOARDS)
                 .then()
                 .statusCode(200)
                 .extract()
                 .response();
 
         JsonPath json = response.jsonPath();
-        //Assertions.assertEquals("Board without default list", json.get("name"));
         assertThat(json.getString("name")).isEqualTo("Board without default list");
 
         String boardId = json.get("id");
@@ -74,7 +72,7 @@ public class BoardTest extends BaseTest {
         Response responseGet = given()
                 .spec(reqSpec)
                 .when()
-                .get("https://api.trello.com/1/boards/" + boardId + "/lists")
+                .get(BASE_URL + "/" + BOARDS + "/" + boardId + "/" + LISTS)
                 .then()
                 .statusCode(200)
                 .extract()
@@ -82,13 +80,12 @@ public class BoardTest extends BaseTest {
 
         JsonPath jsonGet = responseGet.jsonPath();
         List<String> idList = jsonGet.getList("id");
-        //Assertions.assertEquals(0, idList.size());
         assertThat(idList).hasSize(0);
 
         given()
                 .spec(reqSpec)
                 .when()
-                .delete("https://api.trello.com/1/boards/" + boardId)
+                .delete(BASE_URL + "/" + BOARDS + "/" + boardId)
                 .then()
                 .statusCode(200);
     }
@@ -100,14 +97,13 @@ public class BoardTest extends BaseTest {
                 .queryParam("name", "Board with default list")
                 .queryParam("defaultLists", true)
                 .when()
-                .post("https://api.trello.com/1/boards/")
+                .post(BASE_URL + "/" + BOARDS)
                 .then()
                 .statusCode(200)
                 .extract()
                 .response();
 
         JsonPath json = response.jsonPath();
-        //Assertions.assertEquals("Board with default list", json.get("name"));
         assertThat(json.getString("name")).isEqualTo("Board with default list");
 
         String boardId = json.get("id");
@@ -115,13 +111,11 @@ public class BoardTest extends BaseTest {
         Response responseGet = given()
                 .spec(reqSpec)
                 .when()
-                .get("https://api.trello.com/1/boards/" + boardId + "/lists")
+                .get(BASE_URL + "/" + BOARDS + "/" + boardId + "/" + LISTS)
                 .then()
                 .statusCode(200)
                 .extract()
                 .response();
-
-        //System.out.println(responseGet.prettyPrint());
 
         JsonPath jsonGet = responseGet.jsonPath();
         List<String> listName = jsonGet.getList("name");
@@ -130,7 +124,7 @@ public class BoardTest extends BaseTest {
         given()
                 .spec(reqSpec)
                 .when()
-                .delete("https://api.trello.com/1/boards/" + boardId)
+                .delete(BASE_URL + "/" + BOARDS + "/" + boardId)
                 .then()
                 .statusCode(200);
     }
