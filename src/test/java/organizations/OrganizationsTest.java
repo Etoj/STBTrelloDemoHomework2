@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.*;
 public class OrganizationsTest extends BaseTest {
 
     protected static String organizationId;
-    protected static Response response;
+    public static Response response;
 
     @Order(1)
     @Test

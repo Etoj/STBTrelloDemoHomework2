@@ -13,10 +13,11 @@ import static org.assertj.core.api.Assertions.*;
 public class BoardTest extends BaseTest {
 
     public static String boardId;
+    public static Response response;
 
     @Test
     public void createNewBoard() {
-        Response response = given()
+        response = given()
                 .spec(reqSpec)
                 .queryParam("name", "My first board")
                 .when()
@@ -35,7 +36,7 @@ public class BoardTest extends BaseTest {
 
     @Test
     public void createBoardWithEmptyBoardName() {
-        given()
+        response = given()
                 .spec(reqSpec)
                 .queryParam("name", "")
                 .when()
@@ -44,11 +45,13 @@ public class BoardTest extends BaseTest {
                 .statusCode(400)
                 .extract()
                 .response();
+
+        DeleteBoard.deleteBoard();
     }
 
     @Test
     public void createBoardWithoutDefaultList() {
-        Response response = given()
+        response = given()
                 .spec(reqSpec)
                 .queryParam("name", "Board without default list")
                 .queryParam("defaultLists", false)
@@ -82,7 +85,7 @@ public class BoardTest extends BaseTest {
 
     @Test
     public void createBoardWithDefaultList() {
-        Response response = given()
+        response = given()
                 .spec(reqSpec)
                 .queryParam("name", "Board with default list")
                 .queryParam("defaultLists", true)
