@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.*;
 
 public class OrganizationsTest extends BaseTest {
 
-    private static String organizationId;
+    protected static String organizationId;
     private static String organizationWithWrongParamId;
 
     @Order(1)
@@ -35,21 +35,11 @@ public class OrganizationsTest extends BaseTest {
         JsonPath json = response.jsonPath();
         assertThat(json.getString("displayName")).isEqualTo("Moja testowa organizacja");
         organizationId = json.getString("id");
+
+        DeleteOrganization.deleteOrganization();
     }
 
     @Order(2)
-    @Test
-    public void deleteOrganization() {
-
-        given()
-                .spec(reqSpec)
-                .when()
-                .delete(BASE_URL + "/" + ORGANIZATIONS + "/" + organizationId)
-                .then()
-                .statusCode(200);
-    }
-
-    @Order(3)
     @Test
     public void createNewOrganizationWithoutDisplayName() {
 
@@ -63,7 +53,7 @@ public class OrganizationsTest extends BaseTest {
                 .response();
     }
 
-    @Order(4)
+    @Order(3)
     @Test
     public void checkIfApiConvertWrongParametersToCorrectOne() {
 
@@ -87,19 +77,8 @@ public class OrganizationsTest extends BaseTest {
         assertThat(json.getString("website"))
                 .startsWith("http://")
                 .contains("website.name");
-        organizationWithWrongParamId = json.getString("id");
+        organizationId = json.getString("id");
+
+        DeleteOrganization.deleteOrganization();
     }
-
-    @Order(5)
-    @Test
-    public void deleteOrganizationWithWrongInitialParameters() {
-
-        given()
-                .spec(reqSpec)
-                .when()
-                .delete(BASE_URL + "/" + ORGANIZATIONS + "/" + organizationWithWrongParamId)
-                .then()
-                .statusCode(200);
-    }
-
 }

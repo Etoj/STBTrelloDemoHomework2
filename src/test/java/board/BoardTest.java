@@ -44,7 +44,6 @@ public class BoardTest extends BaseTest {
                 .statusCode(400)
                 .extract()
                 .response();
-
     }
 
     @Test
