@@ -12,6 +12,8 @@ import static org.assertj.core.api.Assertions.*;
 
 public class BoardTest extends BaseTest {
 
+    public static String boardId;
+
     @Test
     public void createNewBoard() {
         Response response = given()
@@ -27,14 +29,8 @@ public class BoardTest extends BaseTest {
         JsonPath json = response.jsonPath();
         assertThat(json.getString("name")).isEqualTo("My first board");
 
-        String boardId = json.get("id");
-
-        given()
-                .spec(reqSpec)
-                .when()
-                .delete(BASE_URL + "/" + BOARDS + "/" + boardId)
-                .then()
-                .statusCode(200);
+        boardId = json.get("id");
+        DeleteBoard.deleteBoard();
     }
 
     @Test
@@ -67,7 +63,7 @@ public class BoardTest extends BaseTest {
         JsonPath json = response.jsonPath();
         assertThat(json.getString("name")).isEqualTo("Board without default list");
 
-        String boardId = json.get("id");
+        boardId = json.get("id");
 
         Response responseGet = given()
                 .spec(reqSpec)
@@ -82,12 +78,7 @@ public class BoardTest extends BaseTest {
         List<String> idList = jsonGet.getList("id");
         assertThat(idList).hasSize(0);
 
-        given()
-                .spec(reqSpec)
-                .when()
-                .delete(BASE_URL + "/" + BOARDS + "/" + boardId)
-                .then()
-                .statusCode(200);
+        DeleteBoard.deleteBoard();
     }
 
     @Test
@@ -106,7 +97,7 @@ public class BoardTest extends BaseTest {
         JsonPath json = response.jsonPath();
         assertThat(json.getString("name")).isEqualTo("Board with default list");
 
-        String boardId = json.get("id");
+        boardId = json.get("id");
 
         Response responseGet = given()
                 .spec(reqSpec)
@@ -121,11 +112,6 @@ public class BoardTest extends BaseTest {
         List<String> listName = jsonGet.getList("name");
         assertThat(listName).hasSize(3).contains("To Do", "Doing", "Done");
 
-        given()
-                .spec(reqSpec)
-                .when()
-                .delete(BASE_URL + "/" + BOARDS + "/" + boardId)
-                .then()
-                .statusCode(200);
+        DeleteBoard.deleteBoard();
     }
 }
