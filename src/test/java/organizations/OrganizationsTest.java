@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.is;
+
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.*;
 
@@ -16,19 +19,19 @@ import static org.assertj.core.api.Assertions.*;
 public class OrganizationsTest extends BaseTest {
 
     protected static String organizationId;
-    private static String organizationWithWrongParamId;
+    protected static Response response;
 
     @Order(1)
     @Test
     public void createNewOrganization() {
 
-        Response response = given()
+        response = given()
                 .spec(reqSpec)
                 .queryParam("displayName", "Moja testowa organizacja")
                 .when()
                 .post(BASE_URL + "/" + ORGANIZATIONS)
                 .then()
-                .statusCode(200)
+                .statusCode(anyOf(is(200), is(201)))
                 .extract()
                 .response();
 
@@ -43,7 +46,7 @@ public class OrganizationsTest extends BaseTest {
     @Test
     public void createNewOrganizationWithoutDisplayName() {
 
-        Response response = given()
+        response = given()
                 .spec(reqSpec)
                 .when()
                 .post(BASE_URL + "/" + ORGANIZATIONS)
@@ -51,13 +54,15 @@ public class OrganizationsTest extends BaseTest {
                 .statusCode(400)
                 .extract()
                 .response();
+
+        DeleteOrganization.deleteOrganization();
     }
 
     @Order(3)
     @Test
     public void checkIfApiConvertWrongParametersToCorrectOne() {
 
-        Response response = given()
+        response = given()
                 .spec(reqSpec)
                 .queryParam("displayName", "Organization name less then 3")
                 .queryParam("name", "NA")
@@ -65,7 +70,7 @@ public class OrganizationsTest extends BaseTest {
                 .when()
                 .post(BASE_URL + "/" + ORGANIZATIONS)
                 .then()
-                .statusCode(200)
+                .statusCode(anyOf(is(200), is(201)))
                 .extract()
                 .response();
 
