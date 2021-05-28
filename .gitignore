@@ -1,2 +1,4 @@
 # Project exclude paths
 /target/
+
+/src/test/java/base/BaseTest.java
