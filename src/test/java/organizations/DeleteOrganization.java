@@ -10,20 +10,13 @@ public class DeleteOrganization extends BaseTest {
 
     public static void deleteOrganization() {
         //System.out.println(response.statusCode());
-        if (response.statusCode() == 200) {
+        if (response.statusCode() == 200 || response.statusCode()==201) {
             given()
                     .spec(reqSpec)
                     .when()
                     .delete(BASE_URL + "/" + ORGANIZATIONS + "/" + organizationId)
                     .then()
                     .statusCode(200);
-        } else if (response.statusCode() == 201) {
-            given()
-                    .spec(reqSpec)
-                    .when()
-                    .delete(BASE_URL + "/" + ORGANIZATIONS + "/" + organizationId)
-                    .then()
-                    .statusCode(201);
         } else
             System.out.println("The organization was not created, delete was omitted");//
     }
