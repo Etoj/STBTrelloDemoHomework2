@@ -4,6 +4,7 @@ import base.BaseTest;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
+import base.DeleteResource;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class BoardTest extends BaseTest {
         assertThat(json.getString("name")).isEqualTo("My first board");
 
         boardId = json.get("id");
-        DeleteBoard.deleteBoard();
+        DeleteResource.deleteResource(BASE_URL, BOARDS, boardId, response);
     }
 
     @Test
@@ -45,8 +46,6 @@ public class BoardTest extends BaseTest {
                 .statusCode(400)
                 .extract()
                 .response();
-
-        DeleteBoard.deleteBoard();
     }
 
     @Test
@@ -80,7 +79,7 @@ public class BoardTest extends BaseTest {
         List<String> idList = jsonGet.getList("id");
         assertThat(idList).hasSize(0);
 
-        DeleteBoard.deleteBoard();
+        DeleteResource.deleteResource(BASE_URL, BOARDS, boardId, response);
     }
 
     @Test
@@ -114,6 +113,6 @@ public class BoardTest extends BaseTest {
         List<String> listName = jsonGet.getList("name");
         assertThat(listName).hasSize(3).contains("To Do", "Doing", "Done");
 
-        DeleteBoard.deleteBoard();
+        DeleteResource.deleteResource(BASE_URL, BOARDS, boardId, response);
     }
 }

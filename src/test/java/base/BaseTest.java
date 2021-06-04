@@ -15,16 +15,16 @@ public class BaseTest {
     protected final static String KEY = "YOUR_KEY";
     protected final static String TOKEN = "YOUR_TOKEN";
 
-    private static RequestSpecBuilder reqBuilder;
+    protected static RequestSpecBuilder reqBuilder;
     protected static RequestSpecification reqSpec;
 
     @BeforeAll
-    public static void beforeAll(){
+    public static void beforeAll() {
         reqBuilder = new RequestSpecBuilder();
         reqBuilder.addQueryParam("key", KEY);
         reqBuilder.addQueryParam("token", TOKEN);
         reqBuilder.setContentType(ContentType.JSON);
 
-        reqSpec =reqBuilder.build();
+        reqSpec = reqBuilder.build();
     }
 }

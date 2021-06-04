@@ -1,6 +1,7 @@
 package organizations;
 
 import base.BaseTest;
+import base.DeleteResource;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.MethodOrderer;
@@ -39,7 +40,7 @@ public class OrganizationsTest extends BaseTest {
         assertThat(json.getString("displayName")).isEqualTo("Moja testowa organizacja");
         organizationId = json.getString("id");
 
-        DeleteOrganization.deleteOrganization(BASE_URL, ORGANIZATIONS, organizationId, response);
+        DeleteResource.deleteResource(BASE_URL, ORGANIZATIONS, organizationId, response);
 
     }
 
@@ -83,6 +84,6 @@ public class OrganizationsTest extends BaseTest {
                 .contains("website.name");
         organizationId = json.getString("id");
 
-        DeleteOrganization.deleteOrganization(BASE_URL, ORGANIZATIONS, organizationId, response);
+        DeleteResource.deleteResource(BASE_URL, ORGANIZATIONS, organizationId, response);
     }
 }
