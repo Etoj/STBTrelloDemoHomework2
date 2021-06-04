@@ -6,7 +6,7 @@ import static io.restassured.RestAssured.given;
 
 public class DeleteResource {
 
-    public static void deleteResource(String BASE_URL, String endpoint, String resourceId, Response response) {
+    public static void deleteResourceById(String BASE_URL, String endpoint, String resourceId, Response response) {
 
         if (response.statusCode() == 200 || response.statusCode() == 201) {
             given()

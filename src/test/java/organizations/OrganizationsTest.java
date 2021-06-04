@@ -40,7 +40,7 @@ public class OrganizationsTest extends BaseTest {
         assertThat(json.getString("displayName")).isEqualTo("Moja testowa organizacja");
         organizationId = json.getString("id");
 
-        DeleteResource.deleteResource(BASE_URL, ORGANIZATIONS, organizationId, response);
+        DeleteResource.deleteResourceById(BASE_URL, ORGANIZATIONS, organizationId, response);
 
     }
 
@@ -84,6 +84,6 @@ public class OrganizationsTest extends BaseTest {
                 .contains("website.name");
         organizationId = json.getString("id");
 
-        DeleteResource.deleteResource(BASE_URL, ORGANIZATIONS, organizationId, response);
+        DeleteResource.deleteResourceById(BASE_URL, ORGANIZATIONS, organizationId, response);
     }
 }

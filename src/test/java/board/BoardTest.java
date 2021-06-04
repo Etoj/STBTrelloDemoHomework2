@@ -32,7 +32,7 @@ public class BoardTest extends BaseTest {
         assertThat(json.getString("name")).isEqualTo("My first board");
 
         boardId = json.get("id");
-        DeleteResource.deleteResource(BASE_URL, BOARDS, boardId, response);
+        DeleteResource.deleteResourceById(BASE_URL, BOARDS, boardId, response);
     }
 
     @Test
@@ -79,7 +79,7 @@ public class BoardTest extends BaseTest {
         List<String> idList = jsonGet.getList("id");
         assertThat(idList).hasSize(0);
 
-        DeleteResource.deleteResource(BASE_URL, BOARDS, boardId, response);
+        DeleteResource.deleteResourceById(BASE_URL, BOARDS, boardId, response);
     }
 
     @Test
@@ -113,6 +113,6 @@ public class BoardTest extends BaseTest {
         List<String> listName = jsonGet.getList("name");
         assertThat(listName).hasSize(3).contains("To Do", "Doing", "Done");
 
-        DeleteResource.deleteResource(BASE_URL, BOARDS, boardId, response);
+        DeleteResource.deleteResourceById(BASE_URL, BOARDS, boardId, response);
     }
 }
