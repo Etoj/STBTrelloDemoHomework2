@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.*;
 
 public class OrganizationsTest extends BaseTest {
 
-    protected static String organizationId;
+    public static String organizationId;
     public static Response response;
 
     @Order(1)
@@ -39,7 +39,8 @@ public class OrganizationsTest extends BaseTest {
         assertThat(json.getString("displayName")).isEqualTo("Moja testowa organizacja");
         organizationId = json.getString("id");
 
-        DeleteOrganization.deleteOrganization();
+        DeleteOrganization.deleteOrganization(BASE_URL, ORGANIZATIONS, organizationId, response);
+
     }
 
     @Order(2)
@@ -54,8 +55,6 @@ public class OrganizationsTest extends BaseTest {
                 .statusCode(400)
                 .extract()
                 .response();
-
-        DeleteOrganization.deleteOrganization();
     }
 
     @Order(3)
@@ -84,6 +83,6 @@ public class OrganizationsTest extends BaseTest {
                 .contains("website.name");
         organizationId = json.getString("id");
 
-        DeleteOrganization.deleteOrganization();
+        DeleteOrganization.deleteOrganization(BASE_URL, ORGANIZATIONS, organizationId, response);
     }
 }

@@ -1,22 +1,22 @@
 package organizations;
 
 import base.BaseTest;
+import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
-import static organizations.OrganizationsTest.organizationId;
-import static organizations.OrganizationsTest.response;
 
-public class DeleteOrganization extends BaseTest {
+public class DeleteOrganization {
 
-    public static void deleteOrganization() {
-        //System.out.println(response.statusCode());
-        if (response.statusCode() == 200 || response.statusCode()==201) {
+    public static void deleteOrganization(String BASE_URL, String ORGANIZATIONS, String organizationId, Response response) {
+
+        if (response.statusCode() == 200 || response.statusCode() == 201) {
             given()
-                    .spec(reqSpec)
+                    .spec(BaseTest.reqSpec)
                     .when()
                     .delete(BASE_URL + "/" + ORGANIZATIONS + "/" + organizationId)
                     .then()
                     .statusCode(200);
+
         } else
             System.out.println("The organization was not created, delete was omitted");//
     }
